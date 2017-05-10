@@ -38,6 +38,18 @@ public abstract class Grid {
             //System.out.println("LA POSICION EN Y VALE: " + p.getY());
             x = (int)(p.getX() / cellSide);
             y = (int)(p.getY() / cellSide);
+            if(x < 0){
+                x = 0;
+            }
+            if(x >= grid.length){
+                x = grid.length -1;
+            }
+            if(y < 0){
+                y = 0;
+            }
+            if(y >= grid[0].length){
+                y = grid.length-1;
+            }
             //System.out.println("CELDA X: " + x);
             //System.out.println("CELDA Y: " + y);
 

@@ -21,7 +21,7 @@ public class Main {
         List<Particle> p= g.generateParticles(width,height,Integer.MAX_VALUE,rMin,rMax,v,mass);
         System.out.println(p.size());
         Simulation s = new Simulation(p,width,height,open,kT,kN);
-        s.simulate(100);
+        s.simulate(30);
 
         /*FileWriter fl = new FileWriter("out.txt");
         fl.write(p.size() + "\n" + p.size() + "\n");

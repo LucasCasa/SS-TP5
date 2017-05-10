@@ -24,8 +24,8 @@ public class RegularGrid extends Grid {
                         Particle p1 = grid[i][j].getParticleList().get(l);
                         count++;
                         if (Particle.dist2(p, p1) < (p.radius + p1.radius + rc)*(p.radius + p1.radius + rc)) {
-                            neigh.get(p.getId() - 1).add(p1);
-                            neigh.get(p1.getId() - 1).add(p);
+                            neigh.get(p.getId()).add(p1);
+                            neigh.get(p1.getId()).add(p);
                         }
                     }
 
@@ -33,8 +33,8 @@ public class RegularGrid extends Grid {
                         for (Particle p1 : grid[i + 1][j].getParticleList()) {
                             count++;
                             if (Particle.dist2(p, p1) < (p.radius + p1.radius + rc)*(p.radius + p1.radius + rc)) {
-                                neigh.get(p.getId() - 1).add(p1);
-                                neigh.get(p1.getId() - 1).add(p);
+                                neigh.get(p.getId()).add(p1);
+                                neigh.get(p1.getId()).add(p);
                             }
                         }
                     }
@@ -42,8 +42,8 @@ public class RegularGrid extends Grid {
                         for (Particle p1 : grid[i - 1][j + 1].getParticleList()) {
                             count++;
                             if (Particle.dist2(p, p1) < (p.radius + p1.radius + rc)*(p.radius + p1.radius + rc)) {
-                                neigh.get(p.getId() - 1).add(p1);
-                                neigh.get(p1.getId() - 1).add(p);
+                                neigh.get(p.getId()).add(p1);
+                                neigh.get(p1.getId()).add(p);
                             }
                         }
 
@@ -52,8 +52,8 @@ public class RegularGrid extends Grid {
                         for (Particle p1 : grid[i][j + 1].getParticleList()) {
                             count++;
                             if (Particle.dist2(p, p1) < (p.radius + p1.radius + rc)*(p.radius + p1.radius + rc)) {
-                                neigh.get(p.getId() - 1).add(p1);
-                                neigh.get(p1.getId() - 1).add(p);
+                                neigh.get(p.getId()).add(p1);
+                                neigh.get(p1.getId()).add(p);
                             }
                         }
                     }
@@ -61,15 +61,14 @@ public class RegularGrid extends Grid {
                         for (Particle p1 : grid[i + 1][j + 1].getParticleList()) {
                             count++;
                             if (Particle.dist2(p, p1) < (p.radius + p1.radius + rc)*(p.radius + p1.radius + rc)) {
-                                neigh.get(p.getId() - 1).add(p1);
-                                neigh.get(p1.getId() - 1).add(p);
+                                neigh.get(p.getId()).add(p1);
+                                neigh.get(p1.getId()).add(p);
                             }
                         }
                     }
                 }
             }
         }
-        System.out.println(count);
         return neigh;
 
     }
