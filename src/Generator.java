@@ -9,6 +9,7 @@ public class Generator {
     List<Particle> generateParticles(double x, double y, int n, double rMin, double rMax, double v, double m){
         List<Particle> ps = new ArrayList<>();
         int counter = 0;
+
         for(int i = 0; i<n;i++){
             boolean collision;
             double rand = Math.random()*2*Math.PI;

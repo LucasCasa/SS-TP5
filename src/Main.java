@@ -1,4 +1,3 @@
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
@@ -12,14 +11,23 @@ public class Main {
         double width = 1;
         double height = 3;
         double open = 0.2;
-        double rMin = open/7;
-        double rMax = open/5;
+        double dMin = open/7;
+        double dMax = open/5;
         double kT = 2;
         double kN = 10;
         double mass = 0.01;
         double v = 0;
-        List<Particle> p= g.generateParticles(width,height,Integer.MAX_VALUE,rMin,rMax,v,mass);
-        System.out.println(p.size());
+        List<Particle> p= g.generateParticles(width,height,500,(dMin/2.0),(dMax/2.0),v,mass);
+        //double rRand = Math.random()*(rMax - rMin) + rMin;
+        //double rand = Math.random()*2*Math.PI;
+        //double posX = Math.random()*(width-2*rRand) + rRand;
+       // Particle p1 = new Particle(0, rRand, posX, Math.random()*(height-2*rRand) + rRand,v*Math.cos(rand),v*Math.sin(rand),mass);
+       // Particle p2 = new Particle(1, rRand, posX, Math.random()*(height-2*rRand) + rRand,v*Math.cos(rand),v*Math.sin(rand),mass);
+       //System.out.println(p1.size());
+
+        //List<Particle> lista = new ArrayList<>();
+        //lista.add(p1);
+        //lista.add(p2);
         Simulation s = new Simulation(p,width,height,open,kT,kN);
         s.simulate(30);
 

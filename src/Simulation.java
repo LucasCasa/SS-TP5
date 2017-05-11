@@ -14,6 +14,7 @@ public class Simulation {
     static double dt = 0.00001;
     double kT;
     double kN;
+    static int jump = (int)((1/dt)/60);
 
     public Simulation(List<Particle> p,double w, double h, double open,double kT, double kN){
         this.particles = p;
@@ -31,14 +32,15 @@ public class Simulation {
         for(double t = 0; t<time;t+=dt){
             Grid g = new RegularGrid(2*w,2*h,2*(open/5));
             g.setCells(particles);
-            if(counter == 10000)
+            if(counter == jump)
                 fl.write(particles.size() + "\n" + t + "\n");
 
             ArrayList<ArrayList<Particle>> neigh = g.checkNeighbors(0);
             List<Vector> forces = new ArrayList<>();
             for(Particle p :particles){
-                forces.add(new Vector(0,-p.mass*0.0098));
+                forces.add(new Vector(0,-p.mass*9.8));
             }
+
             for(Particle p : particles){
                 Vector force = forces.get(p.id);
                 force.add(checkWalls(p));
@@ -53,10 +55,10 @@ public class Simulation {
             }
             forces = new ArrayList<>();
             for(Particle p :particles){
-                forces.add(new Vector(0,-p.mass*0.0098));
+                forces.add(new Vector(0,-p.mass*9.8));
             }
             for(Particle p : particles){
-                if(counter == 10000){
+                if(counter == jump){
                     fl.write(p.toString());
                 }
                 Vector force = forces.get(p.id);
@@ -72,9 +74,11 @@ public class Simulation {
                 p.beeman(force,dt);
             }
             for(Particle p : particles){
+                //System.out.println("FUERZA X: " + p.f.x);
+                //XSystem.out.println("FUERZA Y: " + p.f.y);
                 p.setNewPositions();
             }
-            if(counter == 10000){
+            if(counter == jump){
                 counter = 0;
             }else{
                 counter++;
@@ -182,7 +186,9 @@ public class Simulation {
         double dvy = nei.vy - p.vy;
         double dvtx = dvx*etx;
         double dvty = dvy*ety;
-        double ft = -kT*csi*Math.sqrt(dvtx*dvtx + dvty*dvty);
+        //double ftSinComponentes = -kT*csi*(dvtx + dvty);          //Math.sqrt(dvtx*dvtx + dvty*dvty);
+        //ftSinComponentes*etx + ftSinComponentes*ety;
+        double ft = -kT*csi*(Math.sqrt(nei.vx*nei.vx + nei.vy*nei.vy)-Math.sqrt(p.vx*p.vx + p.vy*p.vy));
         double fx = fn*enx - ft*eny;
         double fy = fn*eny + ft*enx;
         return new Vector(fx,fy);
