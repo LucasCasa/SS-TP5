@@ -56,6 +56,8 @@ public class Particle {
         this.vy = vely;
         this.lastRx = x - velx*Simulation.dt;
         this.lastRy = y- vely*Simulation.dt;
+        lastVx = velx;
+        lastVy = vely;
         this.neighbors = new ArrayList<>();
         this.mass = mass;
         this.f = new Vector();

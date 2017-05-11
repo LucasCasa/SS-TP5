@@ -13,23 +13,46 @@ public class Main {
         double open = 0.2;
         double dMin = open/7;
         double dMax = open/5;
-        double kT = 2;
-        double kN = 10;
+        double kT = 2*100000;
+        double kN = 100000;
         double mass = 0.01;
         double v = 0;
-        List<Particle> p= g.generateParticles(width,height,500,(dMin/2.0),(dMax/2.0),v,mass);
-        //double rRand = Math.random()*(rMax - rMin) + rMin;
-        //double rand = Math.random()*2*Math.PI;
-        //double posX = Math.random()*(width-2*rRand) + rRand;
-       // Particle p1 = new Particle(0, rRand, posX, Math.random()*(height-2*rRand) + rRand,v*Math.cos(rand),v*Math.sin(rand),mass);
-       // Particle p2 = new Particle(1, rRand, posX, Math.random()*(height-2*rRand) + rRand,v*Math.cos(rand),v*Math.sin(rand),mass);
-       //System.out.println(p1.size());
 
-        //List<Particle> lista = new ArrayList<>();
-        //lista.add(p1);
-        //lista.add(p2);
+        double rRand = Math.random()*((dMax/2.0) - (dMin/2.0)) + (dMin/2.0);
+        double rand = Math.random()*2*Math.PI;
+        double posY = Math.random()*(height-2*rRand) + rRand;
+        double posX = Math.random()*(width-2*rRand) + rRand;
+
+
+        // List<Particle> lista = new ArrayList<>();
+        //Particle i = new Particle(0, rRand, posX, posY,2,5,mass);
+        //lista.add(i);
+        List<Particle> p= g.generateParticles(width,height,10,(dMin/2.0),(dMax/2.0),v,mass);
+        /*double rRand = Math.random()*((dMax/2.0) - (dMin/2.0)) + (dMin/2.0);
+        double rand = Math.random()*2*Math.PI;
+        double posY = Math.random()*(height-2*rRand) + rRand;
+        double posX = Math.random()*(width-2*rRand) + rRand;
+
+        List<Particle> lista = new ArrayList<>();
+
+        Particle i = new Particle(0, rRand, posX, posY,v*Math.cos(rand),v*Math.sin(rand),mass);
+        Particle j = new Particle(1, rRand, posX, posY,v*Math.cos(rand),v*Math.sin(rand),mass);
+
+        //for(int i = 0; i<width/dMax - 1;i++){
+
+          //  Particle j = new Particle(i, rRand, i*dMax, posY,v*Math.cos(rand),v*Math.sin(rand),mass);
+         lista.add(i);
+         lista.add(j);
+        //}
+*/
+       //System.out.println(p1.size());
+        double totEnergy = 0;
+        /*for(Particle pa : p){
+            totEnergy+= 0.5*pa.mass*(pa.vx*pa.vx + pa.vy*pa.vy) + pa.mass*9.8*pa.y;
+        }
+        System.out.println(totEnergy);*/
         Simulation s = new Simulation(p,width,height,open,kT,kN);
-        s.simulate(30);
+        s.simulate(20);
 
         /*FileWriter fl = new FileWriter("out.txt");
         fl.write(p.size() + "\n" + p.size() + "\n");
