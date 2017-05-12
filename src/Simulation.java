@@ -14,6 +14,7 @@ public class Simulation {
     static double dt = 0.000001;
     double kT;
     double kN;
+    double gamma = 2;
     static int jump = (int)((1/dt)/60);
 
     public Simulation(List<Particle> p,double w, double h, double open,double kT, double kN){
@@ -30,10 +31,12 @@ public class Simulation {
         FileWriter fl = new FileWriter("out.txt");
         int counter = 0;
         for(double t = 0; t<time;t+=dt){
-            Grid g = new RegularGrid(2*w,2*h,2*(open/5));
+            Grid g = new RegularGrid(w,h,2*(open/5));
             g.setCells(particles);
-            if(counter == jump)
+            if(counter == jump) {
                 fl.write(particles.size() + "\n" + t + "\n");
+                System.out.println(t);
+            }
 
             ArrayList<ArrayList<Particle>> neigh = g.checkNeighbors(0);
             List<Vector> forces = new ArrayList<>();
@@ -77,14 +80,6 @@ public class Simulation {
                 p.setNewPositions();
             }
             if(counter == jump){
-                    double totEnergy = 0;
-                for(Particle pa : particles){
-                    totEnergy+= 0.5*pa.mass*(pa.vx*pa.vx + pa.vy*pa.vy) + pa.mass*9.8*pa.y;
-                    if(Double.isNaN(totEnergy)){
-                        System.out.println('e');
-                    }
-                }
-                System.out.println(totEnergy);
                 counter = 0;
             }else{
                 counter++;
@@ -106,12 +101,12 @@ public class Simulation {
             double ety = enx;
 
             double csi = p.radius - dist;
-            double fn = -kN*csi;
             double dvx = - p.vx;
             double dvy = - p.vy;
-            double dvtx = dvx*etx;
-            double dvty = dvy*ety;
-            double ft = -kT*csi*dvty;
+            double dvn = dvx*enx + dvy*eny;
+            double fn = -kN*csi + gamma*dvn;
+            double dvt = dvy*ety + dvx*etx;
+            double ft = kT*csi*dvt;
             double fx = fn*enx - ft*eny;
             double fy = fn*eny + ft*enx;
             f.add(fx,fy);
@@ -125,12 +120,12 @@ public class Simulation {
             double ety = enx;
 
             double csi = p.radius - dist;
-            double fn = -kN*csi;
             double dvx = - p.vx;
             double dvy = - p.vy;
-            double dvtx = dvx*etx;
-            double dvty = dvy*ety;
-            double ft = -kT*csi*dvty;
+            double dvn = dvx*enx + dvy*eny;
+            double fn = -kN*csi + gamma*dvn;
+            double dvt = dvy*ety + dvx*etx;
+            double ft = kT*csi*dvt;
             double fx = fn*enx - ft*eny;
             double fy = fn*eny + ft*enx;
             f.add(fx,fy);
@@ -145,31 +140,31 @@ public class Simulation {
             double ety = enx;
 
             double csi = p.radius - dist;
-            double fn = -kN*csi;
             double dvx = - p.vx;
             double dvy = - p.vy;
-            double dvtx = dvx*etx;
-            double dvty = dvy*ety;
-            double ft = -kT*csi*dvtx;
+            double dvn = dvx*enx + dvy*eny;
+            double fn = -kN*csi + gamma*dvn;
+            double dvt = dvy*ety + dvx*etx;
+            double ft = kT*csi*dvt;
             double fx = fn*enx - ft*eny;
             double fy = fn*eny + ft*enx;
             f.add(fx,fy);
         }else if(p.y - p.radius < 0){
             double dx = 0;
             double dy = -p.y;
-            double dist = Math.sqrt(dx*dx + dy*dy);
+            double dist = Math.abs(p.y);
             double enx = dx/dist;
             double eny = dy/dist;
             double etx = -eny;
             double ety = enx;
 
             double csi = p.radius - dist;
-            double fn = -kN*csi;
             double dvx = - p.vx;
             double dvy = - p.vy;
-            double dvtx = dvx*etx;
-            double dvty = dvy*ety;
-            double ft = -kT*csi*dvtx;
+            double dvn = dvx*enx + dvy*eny;
+            double fn = -kN*csi + gamma*dvn;
+            double dvt = dvy*ety + dvx*etx;
+            double ft = kT*csi*dvt;
             double fx = fn*enx - ft*eny;
             double fy = fn*eny + ft*enx;
             f.add(fx,fy);
@@ -187,17 +182,14 @@ public class Simulation {
         double ety = enx;
 
         double csi = nei.radius + p.radius - dist;
-        double fn = -kN*csi;
         double dvx = nei.vx - p.vx;
         double dvy = nei.vy - p.vy;
-        //double dvtx = dvx*etx;
-        //double dvty = dvy*ety;
-        double dvt2 = Math.sqrt((nei.vx*etx)*(nei.vx*etx) + (nei.vy*ety)*(nei.vy*ety))  ;
-        double dvt1 = Math.sqrt((p.vx*etx)*(p.vx*etx) + (p.vy*ety)*(p.vy*ety))  ;
-        //double ftSinComponentes = -kT*csi*(dvtx + dvty);          //
-        //ftSinComponentes*etx + ftSinComponentes*ety;
-        double ft = -kT*csi*(dvt2 - dvt1);
-       // double ft = Math.sqrt(dvtx*dvtx + dvty*dvty);// (Math.sqrt(nei.vx*nei.vx + nei.vy*nei.vy)-Math.sqrt(p.vx*p.vx + p.vy*p.vy));
+
+        double dvn = dvx*enx + dvy*eny;
+        double fn = -kN*csi + gamma*dvn;
+
+        double dvt = dvy*ety + dvx*etx;
+        double ft = kT*csi*dvt;
         double fx = fn*enx - ft*eny;
         double fy = fn*eny + ft*enx;
         return new Vector(fx,fy);

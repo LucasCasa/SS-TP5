@@ -180,7 +180,7 @@ public class Particle {
 
     @Override
     public String toString() {
-        return x + "\t" + y + "\t" + radius + "\t" + vx + "\t" + vy + "\n";
+        return x + "\t" + y + "\t" + radius +"\n";//+ "\t" + vx + "\t" + vy + "\n";
     }
 
     public void setSpeedX(double speedX) {
@@ -251,7 +251,7 @@ public class Particle {
 
         ax = v.x /mass;
         ay = v.y /mass;
-        //Seguir esto. Esta en la diapo 19
+
         nextX = x + vx*time + (0.666667)*ax*time*time - (0.16666667)*lastAx*time*time;
         nextY = y + vy*time + (0.666667)*ay*time*time - (0.16666667)*lastAy*time*time;
 
@@ -259,23 +259,6 @@ public class Particle {
         lastVy = vy;
         vx = vx + 1.5*ax*time -0.5*lastAx*time;
         vy = vy + 1.5*ay*time -0.5*lastAy*time;
-
-
-        //Version predictor-corrector
-        /*Particle predicted = new Particle(p.next.x, 1, m);
-        predicted.vx = vx + (3.0/2.0)*ax*time-(1.0/2.0)*ax*time;
-        p.next.ax = getAcceleration(predicted);
-
-        p.next.vx = p.vx + (1.0/3.0)*p.next.ax*time + (5.0/6.0)*p.ax*time - (1.0/6.0)*p.ax*time;
-
-        p.previous.x  = p.x;
-        p.previous.vx = p.vx;
-        p.previous.ax = p.ax;
-
-        p.x = p.next.x;
-        p.vx = p.next.vx;
-        p.ax = getAcceleration(p.next);
-        */
     }
     public void beemanCorrection(Vector f,double dt){
         double newAx = f.x / mass;

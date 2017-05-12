@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ public class Main {
         double width = 1;
         double height = 3;
         double open = 0.2;
-        double dMin = open/7;
+        double dMin = open/5;
         double dMax = open/5;
         double kT = 2*100000;
         double kN = 100000;
@@ -24,10 +25,10 @@ public class Main {
         double posX = Math.random()*(width-2*rRand) + rRand;
 
 
-        // List<Particle> lista = new ArrayList<>();
-        //Particle i = new Particle(0, rRand, posX, posY,2,5,mass);
+         List<Particle> lista = new ArrayList<>();
+        //Particle i = new Particle(0, rRand, 0.1, 0.5,1,0,mass);
         //lista.add(i);
-        List<Particle> p= g.generateParticles(width,height,10,(dMin/2.0),(dMax/2.0),v,mass);
+        List<Particle> p= g.generateParticles(width,height,300,(dMin/2.0),(dMax/2.0),v,mass);
         /*double rRand = Math.random()*((dMax/2.0) - (dMin/2.0)) + (dMin/2.0);
         double rand = Math.random()*2*Math.PI;
         double posY = Math.random()*(height-2*rRand) + rRand;
@@ -52,7 +53,7 @@ public class Main {
         }
         System.out.println(totEnergy);*/
         Simulation s = new Simulation(p,width,height,open,kT,kN);
-        s.simulate(20);
+        s.simulate(5);
 
         /*FileWriter fl = new FileWriter("out.txt");
         fl.write(p.size() + "\n" + p.size() + "\n");
