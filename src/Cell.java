@@ -7,6 +7,9 @@ import java.util.List;
  */
 public class Cell {
     double side;
+    Cell E;
+    Cell SE;
+    Cell S;
     List<Particle> particleList = new ArrayList<Particle>();
 
     public Cell(double side){
@@ -21,10 +24,25 @@ public class Cell {
         return side;
     }
 
-
+    public void setNeighbours(Cell E, Cell SE, Cell S){
+        this.E = E;
+        this.SE = SE;
+        this.S = S;
+    }
     public List<Particle> getParticleList(){
         return particleList;
     }
 
 
+    public void setSouth(Cell south) {
+        this.S = south;
+    }
+
+    public void setEast(Cell east) {
+        this.E = east;
+    }
+
+    public void setSouthEast(Cell southEast) {
+        this.SE = southEast;
+    }
 }

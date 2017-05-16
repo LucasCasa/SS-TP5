@@ -180,7 +180,7 @@ public class Particle {
 
     @Override
     public String toString() {
-        return x + "\t" + y + "\t" + radius +"\n";//+ "\t" + vx + "\t" + vy + "\n";
+        return x + "\t" + y + "\t" + radius + "\t" + f.x + "\t" + f.y + "\n";
     }
 
     public void setSpeedX(double speedX) {
@@ -228,15 +228,6 @@ public class Particle {
         x = nextX;
         y = nextY;
     }
-    public void advanceFirst(Vector v){
-        //double rx = x + vx*Simulation.dt + 0.5*mass*v.getX()*Simulation.dt*Simulation.dt;
-        //double ry = y + vy*Simulation.dt + 0.5*mass*v.getY()*Simulation.dt*Simulation.dt;
-        lastRx = x;
-        lastRy = y;
-        //x = rx;
-        //y = ry;
-    }
-
     @Override
     public boolean equals(Object o) {
         if(o instanceof Particle){
@@ -248,7 +239,7 @@ public class Particle {
     public void beeman(Vector v, double time){
         lastAx = ax;
         lastAy = ay;
-
+        f = v;
         ax = v.x /mass;
         ay = v.y /mass;
 

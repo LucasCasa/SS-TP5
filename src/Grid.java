@@ -19,7 +19,6 @@ public abstract class Grid {
         this.w = w;
         this.h = h;
         this.cellSide = cellSide;
-
     }
 
     public void setCells(List<Particle> particles){
