@@ -18,6 +18,8 @@ public class Particle {
     double lastRx = 0;
     double nextX = 0;
     double lastAx = 0;
+    int cellx = 0;
+    int celly = 0;
     double lastAy = 0;
     double lastRy = 0;
     double lastVx = 0;
@@ -185,9 +187,13 @@ public class Particle {
 
     public void setSpeedX(double speedX) {
         this.vx = speedX;
+        this.lastVx = speedX;
+        this.ax = 0;
     }
     public void setSpeedY(double speedY){
         this.vy = speedY;
+        this.lastVy = speedY;
+        this.ay = 0;
     }
 
     public void update(double time) {
@@ -225,6 +231,8 @@ public class Particle {
     }
 
     public void setNewPositions(){
+        lastRx = x;
+        lastRy = y;
         x = nextX;
         y = nextY;
     }
@@ -242,7 +250,6 @@ public class Particle {
         f = v;
         ax = v.x /mass;
         ay = v.y /mass;
-
         nextX = x + vx*time + (0.666667)*ax*time*time - (0.16666667)*lastAx*time*time;
         nextY = y + vy*time + (0.666667)*ay*time*time - (0.16666667)*lastAy*time*time;
 

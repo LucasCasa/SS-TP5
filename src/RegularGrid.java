@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by root on 3/14/17.
@@ -84,6 +85,21 @@ public class RegularGrid extends Grid {
         }
         return neigh;
 
+    }
+    public void updateParticle(Particle p){
+        int newx = (int)(p.x / cellSide);
+        int newy = (int)(p.y / cellSide);
+        if(p.cellx != newx || newy != p.celly){
+            Cell s = grid[p.cellx][p.celly];
+            int size = s.getParticleList().size();
+            s.getParticleList().remove(p);
+            if(size == s.getParticleList().size()){
+                System.out.println("EEROR");
+            }
+            grid[newx][newy].getParticleList().add(p);
+            p.cellx = newx;
+            p.celly = newy;
+        }
     }
 
 

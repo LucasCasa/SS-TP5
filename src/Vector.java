@@ -42,4 +42,9 @@ public class Vector {
         x = -y;
         y = aux;
     }
+
+    public void set(int x, double y) {
+        this.x = x;
+        this.y = y;
+    }
 }

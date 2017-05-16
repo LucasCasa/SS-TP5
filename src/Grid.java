@@ -15,15 +15,16 @@ public abstract class Grid {
     List<Particle> particles;
 
     public Grid(double w,double h, double cellSide){
-        this.grid = new Cell[(int)(w / cellSide)+1][(int)(h / cellSide)+1];
+        this.grid = new Cell[(int)(w / cellSide)+2][(int)(h / cellSide)+2];
         this.w = w;
         this.h = h;
         this.cellSide = cellSide;
+        System.out.println("Celda: x: " + ((int)(w / cellSide)+1) + " y: " + ((int)(h / cellSide)+1)  );
     }
 
     public void setCells(List<Particle> particles){
-        for(int i=0; i < (int)(w / cellSide)+1; i++){
-            for(int j=0; j< (int)(h / cellSide)+1; j++){
+        for(int i=0; i < (int)(w / cellSide)+2; i++){
+            for(int j=0; j< (int)(h / cellSide)+2; j++){
                 grid[i][j] = new Cell(cellSide);
             }
         }
@@ -37,7 +38,7 @@ public abstract class Grid {
             //System.out.println("LA POSICION EN Y VALE: " + p.getY());
             x = (int)(p.getX() / cellSide);
             y = (int)(p.getY() / cellSide);
-            if(x < 0){
+            /*if(x < 0){
                 x = 0;
             }
             if(x >= grid.length){
@@ -48,11 +49,13 @@ public abstract class Grid {
             }
             if(y >= grid[0].length){
                 y = grid.length-1;
-            }
+            }*/
             //System.out.println("CELDA X: " + x);
             //System.out.println("CELDA Y: " + y);
 
             this.grid[x][y].particleList.add(p);
+            p.cellx = x;
+            p.celly = y;
         }
 
     }
@@ -74,4 +77,13 @@ public abstract class Grid {
         }
     }
 
+    public abstract void updateParticle(Particle p);
+
+
+    public void remove(List<Particle> p) {
+        for (Particle pa : p) {
+            grid[pa.cellx][pa.celly].getParticleList().remove(pa);
+        }
+        particles.removeAll(p);
+    }
 }

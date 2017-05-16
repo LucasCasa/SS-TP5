@@ -14,7 +14,7 @@ public class Generator {
             boolean collision;
             double rand = Math.random()*2*Math.PI;
             double rRand = Math.random()*(rMax - rMin) + rMin;
-            Particle p = new Particle(i,rRand,Math.random()*(x-2*rRand) + rRand,Math.random()*(y-2*rRand) + rRand,v*Math.cos(rand),v*Math.sin(rand),m);
+            Particle p = new Particle(i,rRand,Math.random()*(x-2*rRand) + rRand,Math.random()*(y-2*rRand) + rRand + y/10,v*Math.cos(rand),v*Math.sin(rand),m);
             counter = 1;
             do {
                 collision = false;
@@ -22,7 +22,7 @@ public class Generator {
                     if(Particle.dist2(p,op) < (p.getRadius()+op.getRadius())*(p.getRadius()+op.getRadius())){
                         collision = true;
                         p.setX(Math.random()*(x-2*rRand) + rRand);
-                        p.setY(Math.random()*(y-2*rRand) + rRand);
+                        p.setY(Math.random()*(y-2*rRand) + rRand + y/10);
                         break;
                     }
                 }

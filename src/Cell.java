@@ -1,5 +1,6 @@
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -24,11 +25,6 @@ public class Cell {
         return side;
     }
 
-    public void setNeighbours(Cell E, Cell SE, Cell S){
-        this.E = E;
-        this.SE = SE;
-        this.S = S;
-    }
     public List<Particle> getParticleList(){
         return particleList;
     }
