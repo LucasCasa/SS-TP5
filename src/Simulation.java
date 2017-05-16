@@ -11,11 +11,11 @@ public class Simulation {
     double w;
     double h;
     double open;
-    static double dt = 0.000005;
+    static double dt = 0.00001;
     double kT;
     double kN;
     double gamma = 10;
-    static int jump = (int)((1/dt)/60);
+    static int jump = 10000;
 
     public Simulation(List<Particle> p,double w, double h, double open,double kT, double kN){
         this.particles = p;
@@ -24,6 +24,8 @@ public class Simulation {
         this.open = open;
         this.kT = kT;
         this.kN = kN;
+        dt = 0.1*Math.sqrt(p.get(0).mass/kN);
+        jump = (int)((1/dt)/60);
     }
 
 

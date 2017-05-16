@@ -26,7 +26,7 @@ public class Generator {
                         break;
                     }
                 }
-                if(counter >= 1000){
+                if(counter >= 20){
                     return ps;
                 }
                 counter++;

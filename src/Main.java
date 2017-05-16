@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args)  throws IOException{
         Generator g = new Generator();
         double width = 1;
-        double height = 3;
+        double height = 2;
         double open = 0.2;
         double dMin = open/7;
         double dMax = open/5;
@@ -28,7 +28,8 @@ public class Main {
          List<Particle> lista = new ArrayList<>();
         //Particle i = new Particle(0, rRand, 0.1, 0.5,1,0,mass);
         //lista.add(i);
-        List<Particle> p= g.generateParticles(width,height,600,(dMin/2.0),(dMax/2.0),v,mass);
+        List<Particle> p= g.generateParticles(width,height,2000,(dMin/2.0),(dMax/2.0),v,mass);
+        System.out.println(p.size());
         /*double rRand = Math.random()*((dMax/2.0) - (dMin/2.0)) + (dMin/2.0);
         double rand = Math.random()*2*Math.PI;
         double posY = Math.random()*(height-2*rRand) + rRand;
