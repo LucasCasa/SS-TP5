@@ -74,7 +74,7 @@ public class Simulation {
                 p.beemanCorrection(force,dt);
 
             }
-            if(energyCounter == jump/10){
+            if(energyCounter == jump/5){
                 double K = 0;
                 for(Particle p : particles){
                     K+= 0.5*p.mass*(p.vx*p.vx + p.vy*p.vy);
@@ -112,7 +112,7 @@ public class Simulation {
             }else{
                 counter++;
             }
-            if(caudalCount == 10){
+            if(caudalCount == 100){
                 caudal.write((t - lastTime) + "\n");
                 lastTime = t;
                 caudalCount = 0;
