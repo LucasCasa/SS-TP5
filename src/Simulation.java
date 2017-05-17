@@ -9,12 +9,14 @@ import java.util.List;
 public class Simulation {
     List<Particle> particles;
     double w;
+    double fps = 60;
     double h;
     double open;
     double putX = 0;
     static double dt = 0.00001;
     double kT;
     double kN;
+    int caudalCount = 0;
     double gamma = 10;
     static int jump = 10000;
     List<Particle> toRemove = new ArrayList<>();
@@ -27,13 +29,15 @@ public class Simulation {
         this.kT = kT;
         this.kN = kN;
         dt = 0.005*Math.sqrt(p.get(0).mass/kN);
-        jump = (int)((1/dt)/60);
+        jump = (int)((1/dt)/fps);
         putX = open/5;
     }
 
 
     public void simulate(double time) throws IOException{
         FileWriter fl = new FileWriter("out.txt");
+        FileWriter energy = new FileWriter("energy.txt");
+        FileWriter caudal = new FileWriter("caudal.txt");
         int counter = 0;
         Grid g = new RegularGrid(w,h + h/10,2*(open/5));
         g.setCells(particles);
@@ -42,6 +46,7 @@ public class Simulation {
             forces.add(new Vector());
         }
         double iterTime = System.currentTimeMillis();
+        double lastTime = 0;
         for(double t = 0; t<time;t+=dt){
             //g.setCells(particles);
             if(counter == jump) {
@@ -66,7 +71,16 @@ public class Simulation {
                     }
                 }
                 p.beemanCorrection(force,dt);
+
             }
+            if(counter == jump/4){
+                double K = 0;
+                for(Particle p : particles){
+                    K+= 0.5*p.mass*(p.vx*p.vx + p.vy*p.vy);
+                }
+                energy.write(t + "\t" + K + "\n");
+            }
+
             for(Particle p :particles){
                 forces.get(p.id).set(0,-p.mass*9.8);
             }
@@ -94,9 +108,15 @@ public class Simulation {
             }else{
                 counter++;
             }
-
+            if(caudalCount == 10){
+                caudal.write((t - lastTime) + "\n");
+                lastTime = t;
+                caudalCount = 0;
+            }
         }
         fl.close();
+        energy.close();
+        caudal.close();
     }
 
     private Vector checkWalls(Particle p) {
@@ -112,6 +132,7 @@ public class Simulation {
             if(((p.x + p.radius) > (w/2 + open/2) || (p.x - p.radius) < (w/2 - open/2)) && p.y - p.radius - h/10 >= -0.01) {
                 f.add(collideWall(-p.vy, -p.vx, 0, -1, p.radius + h / 10 - p.y));
             }else if(p.y - p.radius <= 0){
+                caudalCount++;
                 p.setY(h-0.01);
                 p.setX(putX);
                 putX+= open/5;

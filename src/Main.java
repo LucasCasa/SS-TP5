@@ -54,7 +54,7 @@ public class Main {
         }
         System.out.println(totEnergy);*/
         Simulation s = new Simulation(p,width,height,open,kT,kN);
-        s.simulate(10);
+        s.simulate(2);
 
         /*FileWriter fl = new FileWriter("out.txt");
         fl.write(p.size() + "\n" + p.size() + "\n");

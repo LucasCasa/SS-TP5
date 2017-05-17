@@ -11,7 +11,7 @@ public class Cell {
     Cell E;
     Cell SE;
     Cell S;
-    List<Particle> particleList = new ArrayList<Particle>();
+    List<Particle> particleList = new ArrayList<>();
 
     public Cell(double side){
         this.side = side;
