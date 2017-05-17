@@ -39,6 +39,7 @@ public class Simulation {
         FileWriter energy = new FileWriter("energy.txt");
         FileWriter caudal = new FileWriter("caudal.txt");
         int counter = 0;
+        int energyCounter = 0;
         Grid g = new RegularGrid(w,h + h/10,2*(open/5));
         g.setCells(particles);
         List<Vector> forces = new ArrayList<>();
@@ -73,12 +74,15 @@ public class Simulation {
                 p.beemanCorrection(force,dt);
 
             }
-            if(counter == jump/4){
+            if(energyCounter == jump/10){
                 double K = 0;
                 for(Particle p : particles){
                     K+= 0.5*p.mass*(p.vx*p.vx + p.vy*p.vy);
                 }
                 energy.write(t + "\t" + K + "\n");
+                energyCounter = 0;
+            }else{
+                energyCounter++;
             }
 
             for(Particle p :particles){
