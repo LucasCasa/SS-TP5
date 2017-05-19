@@ -132,9 +132,9 @@ public class Simulation {
         if( p.y + p.radius > h + h/10){
             f.add(collideWall(p.vy,p.vx,0,1,p.radius - (h + h/10) + p.y ));
         }else if((p.y - p.radius) < (h/10)){
-            if(((p.x + p.radius) > (w/2 + open/2) || (p.x - p.radius) < (w/2 - open/2)) && p.y - p.radius - h/10 >= -0.01) {
+            //if(((p.x + p.radius) > (w/2 + open/2) || (p.x - p.radius) < (w/2 - open/2)) && p.y - p.radius - h/10 >= -0.01) {
                 f.add(collideWall(p.vy, p.vx, 0, -1, p.radius + h / 10 - p.y));
-            }else if(p.y - p.radius <= 0){
+            /*}else if(p.y - p.radius <= 0){
                 caudalCount++;
                 p.setY(h-0.01);
                 p.setX(putX);
@@ -145,7 +145,7 @@ public class Simulation {
                 p.setSpeedX(0);
                 p.setSpeedY(0);
 
-            }
+            }*/
         }
         return f;
     }
