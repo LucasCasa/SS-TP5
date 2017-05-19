@@ -13,6 +13,7 @@ public abstract class Grid {
     int ammount;
     double cellSide;
     List<Particle> particles;
+    ArrayList<ArrayList<Particle>> neigh = new ArrayList<>();
 
     public Grid(double w,double h, double cellSide){
         this.grid = new Cell[(int)(w / cellSide)+2][(int)(h / cellSide)+2];
@@ -56,6 +57,7 @@ public abstract class Grid {
             this.grid[x][y].particleList.add(p);
             p.cellx = x;
             p.celly = y;
+            neigh.add(new ArrayList<>());
         }
 
     }

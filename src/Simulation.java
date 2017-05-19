@@ -9,7 +9,7 @@ import java.util.List;
 public class Simulation {
     List<Particle> particles;
     double w;
-    double fps = 60;
+    double fps = 30;
     double h;
     double open;
     double putX = 0;
@@ -17,9 +17,9 @@ public class Simulation {
     double kT;
     double kN;
     int caudalCount = 0;
-    double gamma = 10;
+    double gamma = 0;
     static int jump = 10000;
-    List<Particle> toRemove = new ArrayList<>();
+    ArrayList<Double> timeWindows = new ArrayList<>();
 
     public Simulation(List<Particle> p,double w, double h, double open,double kT, double kN){
         this.particles = p;
@@ -40,7 +40,7 @@ public class Simulation {
         FileWriter caudal = new FileWriter("caudal.txt");
         int counter = 0;
         int energyCounter = 0;
-        Grid g = new RegularGrid(w,h + h/10,2*(open/5));
+        Grid g = new RegularGrid(w,h + h/10,(open/5));
         g.setCells(particles);
         List<Vector> forces = new ArrayList<>();
         for(Particle p :particles){
@@ -112,10 +112,9 @@ public class Simulation {
             }else{
                 counter++;
             }
-            if(caudalCount == 100){
-                caudal.write((t - lastTime) + "\n");
-                lastTime = t;
-                caudalCount = 0;
+            while(caudalCount > 0){
+                caudal.write(t + "\n");
+                caudalCount--;
             }
         }
         fl.close();
@@ -126,15 +125,15 @@ public class Simulation {
     private Vector checkWalls(Particle p) {
         Vector f = new Vector(0,0);
         if(p.x + p.radius > w){
-            f.add(collideWall(-p.vy,-p.vx,1,0,p.radius - w + p.x));
+            f.add(collideWall(p.vy,p.vx,1,0,p.radius - w + p.x));
         } else if(p.x - p.radius < 0){
-            f.add(collideWall(-p.vy,-p.vx,-1,0,p.radius -p.x ));
+            f.add(collideWall(p.vy,p.vx,-1,0,p.radius -p.x ));
         }
         if( p.y + p.radius > h + h/10){
-            f.add(collideWall(-p.vy,-p.vx,0,1,p.radius - (h + h/10) + p.y ));
+            f.add(collideWall(p.vy,p.vx,0,1,p.radius - (h + h/10) + p.y ));
         }else if((p.y - p.radius) < (h/10)){
             if(((p.x + p.radius) > (w/2 + open/2) || (p.x - p.radius) < (w/2 - open/2)) && p.y - p.radius - h/10 >= -0.01) {
-                f.add(collideWall(-p.vy, -p.vx, 0, -1, p.radius + h / 10 - p.y));
+                f.add(collideWall(p.vy, p.vx, 0, -1, p.radius + h / 10 - p.y));
             }else if(p.y - p.radius <= 0){
                 caudalCount++;
                 p.setY(h-0.01);
@@ -152,9 +151,9 @@ public class Simulation {
     }
     private Vector collideWall(double dvy, double dvx, double enx, double eny,double csi){
         double dvn = dvx*enx + dvy*eny;
-        double fn = -kN*csi + gamma*dvn;
+        double fn = -kN*csi - gamma*dvn;
         double dvt = dvy*enx - dvx*eny;
-        double ft = kT*csi*dvt;
+        double ft = -kT*csi*dvt;
         double fx = fn*enx - ft*eny;
         double fy = fn*eny + ft*enx;
         return new Vector(fx,fy);
@@ -169,14 +168,14 @@ public class Simulation {
         double ety = enx;
 
         double csi = nei.radius + p.radius - dist;
-        double dvx = nei.vx - p.vx;
-        double dvy = nei.vy - p.vy;
+        double dvx = p.vx- nei.vx;
+        double dvy = p.vy - nei.vy;
 
         double dvn = dvx*enx + dvy*eny;
-        double fn = -kN*csi + gamma*dvn;
+        double fn = -kN*csi - gamma*dvn;
 
         double dvt = dvy*ety + dvx*etx;
-        double ft = kT*csi*dvt;
+        double ft = -kT*csi*dvt;
         double fx = fn*enx - ft*eny;
         double fy = fn*eny + ft*enx;
         return new Vector(fx,fy);
